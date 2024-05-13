@@ -4,7 +4,7 @@ from slack import WebClient
 from linear import get_update_to_post
 
 SLACK_TOKEN = os.environ.get("SLACK_TOKEN")
-CHANNEL_ID = os.environ.get("SLACK_CHANNEL_ID")
+CHANNEL_ID = os.environ.get("SLACK_CHANEL_ID")
 
 def main():
     update = get_update_to_post()
