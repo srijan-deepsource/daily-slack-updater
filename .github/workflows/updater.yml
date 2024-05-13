@@ -9,8 +9,8 @@ jobs:
   check-releases:
     env:
       SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
-      SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNE_ID }}
-      LINEAR_TOKEN: ${{ secrets.LINEAR_TOKEN }}
+      SLACK_CHANEL_ID: ${{ secrets.SLACK_CHANEL_ID }}
+      LINEAR_API_KEY: ${{ secrets.LINEAR_TOKEN }}
       LINEAR_VIEW_ID: ${{ secrets.LINEAR_VIEW_ID }}
     runs-on: ubuntu-latest
 
