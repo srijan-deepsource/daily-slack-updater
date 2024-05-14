@@ -69,7 +69,7 @@ def get_issues_from_view(view_id):
             delta = current_time - updated_at
             if delta < timedelta(hours=24):
                 done.append(issue)
-        elif issue['state']['name'] == 'In Progress':
+        elif issue['state']['name'] in ('In Progress', 'In Review'):
             in_progress.append(issue)
         else:
             todo.append(issue)
