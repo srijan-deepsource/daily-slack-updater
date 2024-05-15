@@ -67,7 +67,7 @@ def get_issues_from_view(view_id):
             current_time = datetime.now(timezone.utc)
             completed_at = datetime.strptime(issue['completedAt'], '%Y-%m-%dT%H:%M:%S.%fZ')
             completed_at = updated_at.replace(tzinfo=timezone.utc)
-            delta = current_time - updated_at
+            delta = current_time - completed_at
             if delta < timedelta(hours=24):
                 # Done in the last 24 hours.
                 done.append(issue)
