@@ -25,6 +25,7 @@ def get_issues_from_view(view_id):
         ) {
           nodes {
             updatedAt
+            completedAt
             state {
               name
             }
@@ -64,10 +65,11 @@ def get_issues_from_view(view_id):
             # So, get the current time in ISO 8601, UTC
             # and add it to done if delta is less than 24 hours.
             current_time = datetime.now(timezone.utc)
-            updated_at = datetime.strptime(issue['updatedAt'], '%Y-%m-%dT%H:%M:%S.%fZ')
-            updated_at = updated_at.replace(tzinfo=timezone.utc)
+            completed_at = datetime.strptime(issue['completedAt'], '%Y-%m-%dT%H:%M:%S.%fZ')
+            completed_at = updated_at.replace(tzinfo=timezone.utc)
             delta = current_time - updated_at
             if delta < timedelta(hours=24):
+                # Done in the last 24 hours.
                 done.append(issue)
         elif issue['state']['name'] in ('In Progress', 'In Review'):
             in_progress.append(issue)
