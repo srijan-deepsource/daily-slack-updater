@@ -59,6 +59,7 @@ def get_issues_from_view(view_id):
     done = []
     in_progress = []
     todo = []
+    in_review = []
     for issue in issues['data']['customView']['issues']['nodes']:
         if issue['state']['name'] == 'Done':
             # Only care about issues that are done in the last 24 hours.
@@ -71,26 +72,32 @@ def get_issues_from_view(view_id):
             if delta < timedelta(hours=24):
                 # Done in the last 24 hours.
                 done.append(issue)
-        elif issue['state']['name'] in ('In Progress', 'In Review'):
+        elif issue['state']['name'] == 'In Progress':
             in_progress.append(issue)
+        elif issue['state']['name'] == 'In Review':
+            in_review.append(issue)
         else:
             todo.append(issue)
 
-    return done, in_progress, todo
+    return done, in_progress, todo, in_review
 
 
 def get_update_to_post():
-    done, in_progress, _ = get_issues_from_view(VIEW_ID)
+    done, in_progress, _, in_review = get_issues_from_view(VIEW_ID)
     # Create the update
     newline = '\n'
     update_message = ''
     if len(done) > 0:
         update_message += dedent(
-            f"""*Done* 🎉
+            f"""*Done*:
 {''.join([f" - <{issue['url']}|{issue['title']}>{newline}" for issue in done])}
         """)
+    if len(in_review) > 0:
+        update_message += dedent(f"""*In Review*:
+{''.join([f" - <{issue['url']}|{issue['title']}>{newline}" for issue in in_review])}
+        """)
     if len(in_progress) > 0:
-        update_message += dedent(f"""*In Progress* 👷‍♂️
+        update_message += dedent(f"""*In Progress*:
 {''.join([f" - <{issue['url']}|{issue['title']}>{newline}" for issue in in_progress])}
         """)
 
